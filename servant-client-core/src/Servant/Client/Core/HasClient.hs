@@ -32,7 +32,6 @@ import           Control.Arrow
                  (left, (+++))
 import           Control.Monad
                  (unless)
-import qualified Data.ByteString as BS
 import qualified Data.ByteString.Lazy as BL
 import           Data.Either
                  (partitionEithers)
@@ -78,7 +77,7 @@ import           Servant.API
                  ReflectMethod (..), RemoteHost, ReqBody', SBoolI, Stream,
                  StreamBody', Summary, ToHttpApiData, ToSourceIO (..), Vault,
                  Verb, WithNamedContext, WithResource, WithStatus (..), contentType, getHeadersHList,
-                 getResponse, toEncodedUrlPiece, toUrlPiece, NamedRoutes)
+                 getResponse, toEncodedUrlPiece, NamedRoutes)
 import           Servant.API.Generic
                  (GenericMode(..), ToServant, ToServantApi
                  , GenericServant, toServant, fromServant)
@@ -1007,5 +1006,11 @@ instance (RunClient m, TypeError (PartialApplication HasClient arr)) => HasClien
 
 -- Erroring instances for 'HasClient' for unknown API combinators
 instance {-# OVERLAPPABLE #-} (RunClient m, TypeError (NoInstanceForSub (HasClient m) ty)) => HasClient m (ty :> sub)
+  where
+    clientWithRoute  _ _ _   = error "unreachable"
+    hoistClientMonad _ _ _ _ = error "unreachable"
 
 instance {-# OVERLAPPABLE #-} (RunClient m, TypeError (NoInstanceFor (HasClient m api))) => HasClient m api
+  where
+    clientWithRoute  _ _ _   = error "unreachable"
+    hoistClientMonad _ _ _ _ = error "unreachable"

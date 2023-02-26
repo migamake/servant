@@ -982,7 +982,7 @@ instance (ReflectMethod method) =>
 instance {-# OVERLAPPABLE #-}
         (Accept ct, KnownNat status, ReflectMethod method)
     => HasDocs (Stream method status framing ct a) where
-  docsFor Proxy (endpoint, action) DocOptions{..} =
+  docsFor Proxy (endpoint, action) DocOptions{} =
     single endpoint' action'
 
     where endpoint' = endpoint & method .~ method'
